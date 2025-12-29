@@ -9,7 +9,6 @@ def create_task(db: Session, task_in: TaskCreate, user_id: int) -> Task:
         status=task_in.status,
         user_id=user_id,
     )
-
     db.add(task)
     db.commit()
     db.refresh(task)

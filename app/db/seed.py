@@ -15,10 +15,10 @@ def seed_data():
 
         #Añadir tareas masivas
         new_tasks = [
-            Task(title="Lectura del Proyecto", description="Ninguna", user_id=user.id),
-            Task(title="Migrar BD", description="Ejecutar alembic upgrade", user_id=user.id),
+            Task(title="Lectura del Proyecto", description="Ninguna", status = 1, user_id=user.id),
+            Task(title="Migrar BD", description="Ejecutar alembic upgrade",status = 2, user_id=user.id),
             Task(title="Crud Completo", description="Instalar dependencias", user_id=user.id),
-            Task(title="Tests", description="Ejecutar tests", user_id=user.id),
+            Task(title="Tests", description="Ejecutar tests",status = 2, user_id=user.id),
             Task(title="Configurar proyecto", description="Instalar dependencias", user_id=user.id),
             Task(title="Feedback", description="En Espera", user_id=user.id),
         ]
