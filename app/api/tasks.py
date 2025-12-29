@@ -34,6 +34,8 @@ def get_current_user(
         raise HTTPException(status_code=401, detail="User not found")
     return user
 
+
+#CREATE
 @router.post("/", response_model=TaskOut, status_code=201)
 def create_task(
     task_in: TaskCreate,
@@ -61,7 +63,7 @@ def list_tasks(
         limit=limit,
     )
 
-# GET BY ID (solo si es mía)
+# GET BY ID
 @router.get("/{task_id}", response_model=TaskOut)
 def get_task(
     task_id: int,
