@@ -1,34 +1,23 @@
 @echo off
-TITLE FastAPI Environment Setup
+TITLE FastAPI Dev Environment
 set PYTHONUTF8=1
 
-:: 1. Gestión del Entorno Virtual (VENV)
-if not exist "env\" (
-    echo [!] Creando entorno virtual...
-    python -m venv env
-    if %errorlevel% neq 0 (echo Error al crear venv && pause && exit /b)
-    
-    echo [+] Actualizando pip dentro del entorno...
-    :: Usamos 'call' para mantener el proceso vivo tras activar el venv
-    call env\Scripts\activate && python.exe -m pip install --upgrade pip
-    
-    echo [+] Instalando dependencias desde requirements.txt...
-    call env\Scripts\activate && pip install -r requirements.txt
-) else (
-    echo [OK] Entorno virtual detectado.
-)
-
-:: 2. Ejecución con el Entorno Activo
-echo [+] Iniciando servicios...
+echo [1/6] Iniciando Docker...
 docker-compose up -d
 
-:: Sincronizar Base de Datos usando el entorno
+echo [2/6] Esperando a la BD...
+timeout /t 5 /nobreak > NUL
+
+echo [3/6] Limpiando rastro de versiones...
+docker exec technical_test_db psql -U postgres -d technical_test -c "DROP TABLE IF EXISTS alembic_version CASCADE;"
+
+echo [4/6] Aplicando esquema...
+call env\Scripts\activate && alembic revision --autogenerate -m "tables"
 call env\Scripts\activate && alembic upgrade head
 
-:: Ejecutar el servidor usando el entorno
-echo ====================================================
-echo   ENTORNO ACTIVO - INICIANDO FASTAPI
-echo ====================================================
-call env\Scripts\activate && uvicorn app.main:app --reload
+echo [5/6] Ejecutando Seed...
+call env\Scripts\activate && python -m app.db.seed
 
+echo [6/6] Iniciando Servidor...
+call env\Scripts\activate && uvicorn app.main:app --reload
 pause
