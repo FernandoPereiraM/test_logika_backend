@@ -1,0 +1,28 @@
+# Python (Caché y temporales)
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+
+# Entorno Virtual
+env/
+venv/
+ENV/
+.env/
+
+# Variables de entorno (¡Muy importante por seguridad!)
+.env
+.env.local
+.env.test
+
+# Docker (Archivos de base de datos locales)
+# Solo si mapeas volúmenes a carpetas locales específicas
+pgdata/
+
+# IDEs (VS Code, PyCharm)
+.vscode/
+.idea/
+
+# Alembic (Evitar conflictos de caché de migraciones)
+app/db/migrations/versions/*.pyc
