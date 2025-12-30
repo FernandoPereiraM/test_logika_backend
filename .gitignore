@@ -11,18 +11,17 @@ venv/
 ENV/
 .env/
 
-# Variables de entorno (¡Muy importante por seguridad!)
+# Variables de entorno
 .env
 .env.local
 .env.test
 
-# Docker (Archivos de base de datos locales)
-# Solo si mapeas volúmenes a carpetas locales específicas
+# Docker
 pgdata/
 
 # IDEs (VS Code, PyCharm)
 .vscode/
 .idea/
 
-# Alembic (Evitar conflictos de caché de migraciones)
+# Alembic
 app/db/migrations/versions/*.pyc
