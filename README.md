@@ -153,6 +153,7 @@ Para crear tablas y cargar datos de prueba:
 alembic upgrade head
 ---
 
+---
 # Ejecutar el servidor FastAPI
 
 ```
