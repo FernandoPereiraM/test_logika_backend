@@ -1,7 +1,7 @@
 
 ---
 
-# 🚀 FastAPI Technical Test - Task API
+# FastAPI Technical Test - Task API
 
 Este proyecto es un backend desarrollado con **FastAPI**, usando **PostgreSQL en Docker**, **Alembic para migraciones** y **variables de entorno centralizadas**.
 
@@ -9,7 +9,7 @@ El entorno está pensado para levantarse fácilmente en desarrollo local.
 
 ---
 
-## 📦 Requisitos previos
+## Requisitos previos
 
 * **Python 3.10+**
 * **Docker** y **Docker Compose**
@@ -17,7 +17,7 @@ El entorno está pensado para levantarse fácilmente en desarrollo local.
 * **Virtualenv**
 
 ---
-## ⚡ Ejecución rápida (Windows)
+## Ejecución rápida (Windows)
 
 Para Windows, el proyecto incluye un script que automatiza todo el flujo:
 
@@ -34,7 +34,7 @@ Este script:
 5. Inicia el servidor FastAPI
 
 
-## 📁 Estructura del proyecto (resumen)
+## Estructura del proyecto (resumen)
 
 ```text
 app/
@@ -49,11 +49,11 @@ main.py
 
 ---
 
-## ⚙️ Variables de entorno
+## Variables de entorno
 
 El proyecto usa un archivo `.env` como **fuente única de configuración**, utilizado tanto por **FastAPI** como por **Docker Compose**.
 
-### 1️⃣ Crear archivo `.env`
+### Crear archivo `.env`
 
 En la raíz del proyecto:
 
@@ -61,7 +61,7 @@ En la raíz del proyecto:
     .env
 ```
 
-### 2️⃣ Contenido del `.env`
+### Contenido del `.env`
 
 ```env
 # ==========================
@@ -81,14 +81,14 @@ ACCESS_TOKEN_EXPIRE_MINUTES=60
 ALGORITHM=HS256
 ```
 
-📌 **Nota**
+ **Nota**
 
 * `DB_HOST=postgres` corresponde al nombre del servicio en Docker Compose
 * El archivo `.env` **no debe subirse al repositorio**
 
 ---
 
-## 🐳 Base de Datos (Docker)
+## Base de Datos (Docker)
 
 La base de datos PostgreSQL se levanta usando Docker Compose.
 
@@ -111,7 +111,7 @@ localhost:5433
 
 ---
 
-## 🐍 Entorno virtual de Python
+## Entorno virtual de Python
 
 ### Crear entorno virtual
 
@@ -141,7 +141,7 @@ pip install -r requirements.txt
 
 ---
 
-## 🧬 Migraciones de Base de Datos (Alembic)
+## Migraciones de Base de Datos (Alembic)
 
 ### Aplicar migraciones
 
@@ -158,7 +158,7 @@ alembic upgrade head
 
 ---
 
-## 🌱 Seed de datos iniciales
+## Seed de datos iniciales
 
 Para cargar datos de prueba:
 
@@ -170,7 +170,7 @@ Esto insertará datos básicos necesarios para pruebas y desarrollo.
 
 ---
 
-## ▶️ Ejecutar el servidor FastAPI
+## Ejecutar el servidor FastAPI
 
 ```bash
 uvicorn app.main:app --reload
@@ -184,7 +184,7 @@ El servidor estará disponible en:
 
 ---
 
-## 🔁 Flujo de ejecución resumido
+## Flujo de ejecución resumido
 
 ```text
 Docker → PostgreSQL → Alembic → Seed → FastAPI
@@ -193,14 +193,14 @@ Docker → PostgreSQL → Alembic → Seed → FastAPI
 Todo el proyecto utiliza el mismo archivo `.env`, garantizando coherencia entre infraestructura y backend.
 
 ---
-# 🧩 Funcionamiento de la API.
+#  Funcionamiento de la API.
 ---
 
-## 📌 Datos iniciales (Seed)
+##  Datos iniciales (Seed)
 
 Durante la inicialización del proyecto se ejecuta un **script de seed**, cuyo objetivo es dejar el sistema listo para ser utilizado sin configuración manual.
 
-### 👤 Usuario administrador inicial
+### Usuario administrador inicial
 
 Se crea automáticamente el siguiente usuario:
 
@@ -213,7 +213,7 @@ Este usuario se identifica por **email** y su contraseña se almacena de forma *
 
 ---
 
-### 📥 Payload de autenticación
+### Payload de autenticación
 
 El siguiente payload puede utilizarse directamente en el endpoint de login para obtener un token JWT:
 
@@ -232,7 +232,7 @@ POST /auth/login
 
 ---
 
-### 📋 Datos adicionales creados
+### Datos adicionales creados
 
 * Al usuario `admin@task.com` se le asocian automáticamente **6 tareas iniciales**
 * Estas tareas se crean únicamente con fines de **desarrollo y prueba técnica**
@@ -240,7 +240,7 @@ POST /auth/login
 
 ---
 
-### 🧬 Proceso de creación
+### Proceso de creación
 
 1. El esquema de base de datos se crea mediante **Alembic**
 2. Se ejecuta el seed:
@@ -257,20 +257,20 @@ POST /auth/login
 
 ---
 
-### ⚠️ Nota de seguridad
+### Nota de seguridad
 
 Las credenciales iniciales están pensadas **exclusivamente para entornos de desarrollo o pruebas**.
 En entornos productivos se recomienda cambiar o eliminar este usuario.
 
 ---
 
-## 🔐 Autenticación (Auth)
+## Autenticación (Auth)
 
 La API utiliza **JWT (Bearer Token)** para proteger los endpoints de tareas.
 
 ---
 
-### ▶️ Registrar usuario
+### Registrar usuario
 
 **POST** `/auth/register`
 
@@ -291,7 +291,7 @@ La API utiliza **JWT (Bearer Token)** para proteger los endpoints de tareas.
 
 ---
 
-### ▶️ Login
+### Login
 
 **POST** `/auth/login`
 
@@ -315,7 +315,7 @@ La API utiliza **JWT (Bearer Token)** para proteger los endpoints de tareas.
 
 ---
 
-### 🔑 Uso del Token
+### Uso del Token
 
 Para acceder a los endpoints protegidos, se debe enviar el token en el header:
 
@@ -325,13 +325,13 @@ Authorization: Bearer <access_token>
 
 ---
 
-## 📋 Tasks API
+## Tasks API
 
 Todos los endpoints de **Tasks** requieren autenticación.
 
 ---
 
-### ▶️ Crear tarea
+### Crear tarea
 
 **POST** `/tasks/`
 
@@ -350,7 +350,7 @@ Todos los endpoints de **Tasks** requieren autenticación.
 
 ---
 
-### ▶️ Listar tareas (con paginación)
+### Listar tareas (con paginación)
 
 **GET** `/tasks/`
 
@@ -378,7 +378,7 @@ GET http://127.0.0.1:8000/tasks/?skip=0&limit=10
 
 ---
 
-### ▶️ Obtener tarea por ID
+### Obtener tarea por ID
 
 **GET** `/tasks/{task_id}`
 
@@ -389,7 +389,7 @@ GET http://127.0.0.1:8000/tasks/?skip=0&limit=10
 
 ---
 
-### ▶️ Actualizar tarea
+### Actualizar tarea
 
 **PUT** `/tasks/{task_id}`
 
@@ -409,7 +409,7 @@ GET http://127.0.0.1:8000/tasks/?skip=0&limit=10
 
 ---
 
-### ▶️ Eliminar tarea
+### Eliminar tarea
 
 **DELETE** `/tasks/{task_id}`
 
@@ -419,7 +419,7 @@ GET http://127.0.0.1:8000/tasks/?skip=0&limit=10
 
 ---
 
-## 🔁 Flujo típico de uso
+## Flujo típico de uso
 
 ```text
 1. Login
@@ -430,7 +430,7 @@ GET http://127.0.0.1:8000/tasks/?skip=0&limit=10
 
 ---
 
-## 🧠 Notas técnicas
+## Notas técnicas
 
 * El email es el identificador único del usuario
 * JWT configurable mediante variables de entorno
@@ -442,7 +442,7 @@ GET http://127.0.0.1:8000/tasks/?skip=0&limit=10
 
 ---
 
-## 👤 Autor
+##  Autor
 
 **Luis Pereira**
 Backend / QA Engineer

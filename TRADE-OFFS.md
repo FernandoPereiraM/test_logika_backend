@@ -6,7 +6,7 @@ En esta sección se explican las principales decisiones técnicas tomadas durant
 
 ---
 
-### 🔐 Identificación del usuario por email
+### Identificación del usuario por email
 
 **Decisión:**
 El usuario se identifica de forma única por su **email**.
@@ -24,7 +24,7 @@ El usuario se identifica de forma única por su **email**.
 
 ---
 
-### 🔑 Autenticación con JWT
+### Autenticación con JWT
 
 **Decisión:**
 Se implementó autenticación basada en **JWT (Bearer Token)**.
@@ -42,7 +42,7 @@ Se implementó autenticación basada en **JWT (Bearer Token)**.
 
 ---
 
-### 🌱 Usuario y datos iniciales mediante Seed
+### Usuario y datos iniciales mediante Seed
 
 **Decisión:**
 El usuario administrador y las tareas iniciales se crean mediante un **script de seed**.
@@ -60,7 +60,7 @@ El usuario administrador y las tareas iniciales se crean mediante un **script de
 
 ---
 
-### 🧬 Migraciones con Alembic
+### Migraciones con Alembic
 
 **Decisión:**
 Se utilizó **Alembic** para versionar el esquema de base de datos.
@@ -78,7 +78,7 @@ Se utilizó **Alembic** para versionar el esquema de base de datos.
 
 ---
 
-### 🐳 Uso de Docker solo para la base de datos
+### Uso de Docker solo para la base de datos
 
 **Decisión:**
 Docker se utiliza únicamente para PostgreSQL, mientras que FastAPI corre localmente.
@@ -96,7 +96,7 @@ Docker se utiliza únicamente para PostgreSQL, mientras que FastAPI corre localm
 
 ---
 
-### ⚙️ Variables de entorno centralizadas
+### Variables de entorno centralizadas
 
 **Decisión:**
 Toda la configuración se centralizó en un archivo `.env`, cargado desde `core`.
@@ -114,7 +114,7 @@ Toda la configuración se centralizó en un archivo `.env`, cargado desde `core`
 
 ---
 
-### 📋 Paginación con `skip` y `limit`
+### Paginación con `skip` y `limit`
 
 **Decisión:**
 Se implementó paginación usando parámetros `skip` y `limit`.
@@ -132,7 +132,7 @@ Se implementó paginación usando parámetros `skip` y `limit`.
 
 ---
 
-### 🧩 Separación por capas (Core, DB, Routes)
+### Separación por capas (Core, DB, Routes)
 
 **Decisión:**
 El proyecto se estructuró por capas funcionales.
