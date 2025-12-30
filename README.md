@@ -1,7 +1,7 @@
 
 ---
 
-# 🚀 FastAPI Technical Test
+# 🚀 FastAPI Technical Test - Task API
 
 Este proyecto es un backend desarrollado con **FastAPI**, usando **PostgreSQL en Docker**, **Alembic para migraciones** y **variables de entorno centralizadas**.
 
