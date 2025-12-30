@@ -4,7 +4,6 @@ from app.models.user import User
 from app.core.security import get_password_hash, verify_password
 
 def create_user(db: Session, email: str, password: str):
-    # MEJOR PRÁCTICA: Validar existencia antes de procesar el hash (ahorra CPU)
     existing_user = db.query(User).filter(User.email == email).first()
     if existing_user:
         raise HTTPException(

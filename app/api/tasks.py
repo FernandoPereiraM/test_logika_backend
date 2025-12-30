@@ -9,16 +9,19 @@ from app.core.config import settings
 from app.schemas.task import TaskCreate, TaskPaginationOut, TaskUpdate, TaskOut
 from app.services import task_service
 
+# En Swagger aparecerán bajo la sección "Tasks"
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
 
+# tokenUrl apunta al endpoint de login
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
-#VERIFICA SI EL USUARIO ACTUAL SI ESTA AUTENTICADO
+# OBTENER USUARIO AUTENTICADO
 def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db),
 ) -> User:
     try:
+        # Decodifica el token JWT usando la clave secreta
         payload = jwt.decode(
             token,
             settings.SECRET_KEY,
@@ -43,13 +46,14 @@ def create_task(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    # Crea la tarea asociada al usuario autenticado
     return task_service.create_task(
         db,
         task_in,
         current_user.id,
     )
 
-# LIST
+# LIST TASKS (PAGINADO)
 @router.get("/", response_model=TaskPaginationOut)
 def list_tasks(
     request: Request,
@@ -58,6 +62,7 @@ def list_tasks(
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1, le=100),
 ):
+    # Obtiene las tareas paginadas desde el service
     data = task_service.get_tasks(
         db=db,
         user_id=current_user.id,
@@ -65,7 +70,7 @@ def list_tasks(
         page_size=page_size,
     )
 
-    # Construcción de URLs
+    # Función auxiliar para construir URLs
     def build_url(page_number: int | None):
         if page_number is None:
             return None
@@ -76,6 +81,7 @@ def list_tasks(
             )
         )
 
+    # Se agregan las URLs de navegación
     data["next_page_url"] = build_url(data["next_page"])
     data["prev_page_url"] = build_url(data["prev_page"])
 
@@ -90,6 +96,7 @@ def get_task(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    # Busca la tarea asegurando que pertenezca al usuario
     task = task_service.get_task(
         db=db,
         task_id=task_id,
@@ -108,6 +115,7 @@ def update_task(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    # Busca la tarea del usuario
     task = task_service.get_task(
         db=db,
         task_id=task_id,

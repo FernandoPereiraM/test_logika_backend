@@ -7,15 +7,21 @@ from app.core.config import settings
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def get_password_hash(password: str) -> str:
+    #Genera un hash seguro de la contraseña de 72 caracteres
     return pwd_context.hash(password[:72])
 
 def verify_password(plain_password: str, hashed_password: str):
+    # Retorna True si coinciden.
     return pwd_context.verify(plain_password[:72], hashed_password)
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    # Copia del payload original
     to_encode = data.copy()
+    
     expire = datetime.utcnow() + (
         expires_delta or timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     )
     to_encode.update({"exp": expire})
+    
+    # Firma y genera el token JWT
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)

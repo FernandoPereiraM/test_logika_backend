@@ -9,10 +9,12 @@ from app.services.user_service import create_user
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
+# REGISTRO DE USUARIOS
 @router.post("/register", response_model=UserOut)
 def register(user_in: UserCreate, db: Session = Depends(get_db)):
     return create_user(db, user_in.email, user_in.password)
 
+# LOGIN / AUTENTICACION
 @router.post("/login")
 def login(
     form: OAuth2PasswordRequestForm = Depends(),
