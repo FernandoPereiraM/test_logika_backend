@@ -49,7 +49,7 @@ def create_task(
         current_user.id,
     )
 
-# LIST (solo mis tasks)
+# LIST
 @router.get("/", response_model=TaskPaginationOut)
 def list_tasks(
     db: Session = Depends(get_db),
