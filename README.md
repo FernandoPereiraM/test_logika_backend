@@ -333,7 +333,7 @@ Todos los endpoints de **Tasks** requieren autenticación.
 
 ---
 
-### Crear tarea
+## Crear tarea
 
 **POST** `/tasks/`
 
@@ -352,7 +352,7 @@ Todos los endpoints de **Tasks** requieren autenticación.
 
 ---
 
-# 📘 Listar tareas (con paginación)
+## 📘 Listar tareas (con paginación)
 
 ### `GET /tasks/`
 
@@ -360,7 +360,7 @@ Este endpoint devuelve las tareas del **usuario autenticado**, aplicando paginac
 
 ---
 
-## 🔐 Autenticación
+# Autenticación
 
 Requiere token JWT en el header:
 
@@ -370,7 +370,7 @@ Authorization: Bearer <token>
 
 ---
 
-## 📥 Parámetros de consulta
+# Parámetros de consulta
 
 | Parámetro   | Tipo | Por defecto | Descripción                                      |
 | ----------- | ---- | ----------- | ------------------------------------------------ |
@@ -379,7 +379,7 @@ Authorization: Bearer <token>
 
 ---
 
-## 📌 Descripción
+# Descripción
 
 * `page` indica **la página actual**.
 * `page_size` indica **cuántos registros devuelve la API por página**.
@@ -394,7 +394,7 @@ Authorization: Bearer <token>
 
 ---
 
-## 📤 Ejemplo de solicitud
+# Ejemplo de solicitud
 
 ```
 GET http://127.0.0.1:8000/tasks/?page=1&page_size=5
@@ -402,7 +402,7 @@ GET http://127.0.0.1:8000/tasks/?page=1&page_size=5
 
 ---
 
-## 📥 Ejemplo de respuesta
+# Ejemplo de respuesta
 
 ```json
 {
@@ -422,31 +422,6 @@ GET http://127.0.0.1:8000/tasks/?page=1&page_size=5
     }
   ]
 }
-```
-
----
-
-## 🧠 ¿Cómo funciona la paginación internamente?
-
-El backend convierte:
-
-```
-skip = (page - 1) * page_size
-limit = page_size
-```
-
-Ejemplo para `page=3` y `page_size=10`:
-
-* salta → `20` registros
-* devuelve → `10` registros (IDs 21 al 30)
-
----
-
-## 📎 Notas
-
-* Solo se devuelven tareas del **usuario autenticado**.
-* Si la página solicitada excede el número real de páginas, `items` será una lista vacía.
-* `next_page` y `prev_page` son `null` cuando no aplican.
 
 ---
 
