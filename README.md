@@ -364,11 +364,36 @@ Todos los endpoints de **Tasks** requieren autenticación.
 
 ### ▶️ Listar tareas
 
+Perfecto, Luis 👍
+Aquí tienes **la redacción correcta y clara para el README**, explicando que el endpoint **permite paginación** usando `skip` y `limit`.
+
+---
+
+### ▶️ Listar tareas (con paginación)
+
 **GET** `/tasks/`
+
+Este endpoint permite obtener las tareas del usuario autenticado y **soporta paginación** mediante parámetros de consulta.
+
+#### Parámetros de consulta
+
+| Parámetro | Tipo | Descripción                           |
+| --------- | ---- | ------------------------------------- |
+| `skip`    | int  | Número de registros a omitir (offset) |
+| `limit`   | int  | Número máximo de registros a retornar |
+
+#### Ejemplo de solicitud
+
+```http
+GET http://127.0.0.1:8000/tasks/?skip=0&limit=10
+```
 
 #### Descripción
 
-* Retorna solo las tareas del usuario autenticado
+* `skip=0` → inicia desde el primer registro
+* `limit=10` → retorna un máximo de 10 tareas
+* Solo se listan las tareas del usuario autenticado
+* Requiere token JWT en el header `Authorization`
 
 ---
 
@@ -432,6 +457,7 @@ Todos los endpoints de **Tasks** requieren autenticación.
 * Acceso a tareas restringido por usuario
 * El proyecto está preparado para múltiples entornos
 * La configuración está centralizada en `app/core/config.py`
+* La paginación está implementada a nivel de consulta, lo que permite manejar grandes volúmenes de datos de forma eficiente y controlada.
 
 ---
 
