@@ -1,13 +1,13 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    DB_HOST: str = "localhost"
-    DB_PORT: int = 5433
-    DB_NAME: str = "technical_test"
-    DB_USER: str = "postgres"
-    DB_PASSWORD: str = "postgres"
+    DB_HOST: str
+    DB_PORT: int
+    DB_NAME: str
+    DB_USER: str
+    DB_PASSWORD: str
 
-    SECRET_KEY: str = "super-secret-key"
+    SECRET_KEY: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     ALGORITHM: str = "HS256"
 
