@@ -33,7 +33,7 @@ def get_tasks(db: Session, user_id: int, page: int, page_size: int):
         .all()
     )
 
-    # Calcular total de páginas
+    # Calcular total de páginas ------->
     total_pages = (total + page_size - 1) // page_size
 
     # Calcular next/prev page
@@ -49,7 +49,6 @@ def get_tasks(db: Session, user_id: int, page: int, page_size: int):
         "prev_page": prev_page,
         "items": items,
     }
-
 
 
 def get_task(db: Session, task_id: int, user_id: int):

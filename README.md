@@ -12,7 +12,7 @@ Abrir la carpeta raíz y ejecutar el script.
 
 # Requisitos previos
 
-* Python 3.10+
+* Python 3.10<=3.11.8
 * Docker y Docker Compose
 * Git
 * Virtualenv
@@ -151,15 +151,6 @@ Para crear tablas y cargar datos de prueba:
 
 ```
 alembic upgrade head
-```
-
-Primera vez:
-
-```
-alembic revision --autogenerate -m "create users and tasks tables"
-alembic upgrade head
-```
-
 ---
 
 # Ejecutar el servidor FastAPI
