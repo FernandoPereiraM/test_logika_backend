@@ -147,6 +147,7 @@ pip install -r requirements.txt
 # Migraciones de Base de Datos (Alembic)
 
 ## Aplicar migraciones
+Para crear tablas y cargar datos de prueba:
 
 ```
 alembic upgrade head
@@ -158,18 +159,6 @@ Primera vez:
 alembic revision --autogenerate -m "create users and tasks tables"
 alembic upgrade head
 ```
-
----
-
-# Seed de datos iniciales
-
-Para cargar datos de prueba:
-
-```
-python -m app.db.seed
-```
-
-Esto insertará datos básicos necesarios para pruebas y desarrollo.
 
 ---
 
