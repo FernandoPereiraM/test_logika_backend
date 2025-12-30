@@ -7,7 +7,7 @@ Este proyecto es un backend desarrollado con **FastAPI**, usando **PostgreSQL en
 
 El entorno está pensado para levantarse fácilmente en desarrollo local.
 
-ABRIR LA CARPETA RAIZ & EJECUTAR EL SCRIPT
+**ABRIR LA CARPETA RAIZ & EJECUTAR EL SCRIPT**
 
 ---
 
