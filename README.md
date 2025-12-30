@@ -401,7 +401,7 @@ GET http://127.0.0.1:8000/tasks/?skip=0&limit=10
 {
   "title": "Tarea actualizada",
   "description": "Descripción actualizada",
-  "status: (0 = pending | 1 = in_progress | 2 = done)
+  "status": (0 = pending | 1 = in_progress | 2 = done)
 }
 ```
 
