@@ -193,18 +193,6 @@ Docker → PostgreSQL → Alembic → Seed → FastAPI
 Todo el proyecto utiliza el mismo archivo `.env`, garantizando coherencia entre infraestructura y backend.
 
 ---
-
-## 🧠 Decisiones técnicas
-
-* **FastAPI** por rendimiento y tipado
-* **Docker** para aislar infraestructura
-* **Alembic** para versionado del esquema
-* **Pydantic Settings** para gestión de configuración
-* **JWT** para autenticación
-
----
-
----
 # 🧩 Funcionamiento de la API.
 ---
 
