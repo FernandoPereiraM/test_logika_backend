@@ -17,7 +17,6 @@ SessionLocal = sessionmaker(
     bind=engine,
 )
 
-# 👉 ESTA FUNCIÓN ES LA QUE FALTA
 def get_db():
     db = SessionLocal()
     try:

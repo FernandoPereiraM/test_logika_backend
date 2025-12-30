@@ -204,9 +204,232 @@ Todo el proyecto utiliza el mismo archivo `.env`, garantizando coherencia entre 
 
 ---
 
-## 📌 Notas finales
+---
+# 🧩 Funcionamiento de la API.
+---
 
-* No se sube el archivo `.env`
+## 📌 Datos iniciales (Seed)
+
+Durante la inicialización del proyecto se ejecuta un **script de seed**, cuyo objetivo es dejar el sistema listo para ser utilizado sin configuración manual.
+
+### 👤 Usuario administrador inicial
+
+Se crea automáticamente el siguiente usuario:
+
+```text
+Email:    admin@task.com
+Password: admin
+```
+
+Este usuario se identifica por **email** y su contraseña se almacena de forma **hasheada** en la base de datos.
+
+---
+
+### 📥 Payload de autenticación
+
+El siguiente payload puede utilizarse directamente en el endpoint de login para obtener un token JWT:
+
+```json
+{
+  "email": "admin@task.com",
+  "password": "admin"
+}
+```
+
+**Endpoint:**
+
+```http
+POST /auth/login
+```
+
+---
+
+### 📋 Datos adicionales creados
+
+* Al usuario `admin@task.com` se le asocian automáticamente **6 tareas iniciales**
+* Estas tareas se crean únicamente con fines de **desarrollo y prueba técnica**
+* Permiten validar de inmediato los endpoints de Tasks sin crear datos manualmente
+
+---
+
+### 🧬 Proceso de creación
+
+1. El esquema de base de datos se crea mediante **Alembic**
+2. Se ejecuta el seed:
+
+   ```bash
+   python -m app.db.seed
+   ```
+3. El script:
+
+   * Verifica si el usuario ya existe
+   * Crea el usuario administrador si no existe
+   * Hashea la contraseña antes de guardarla
+   * Inserta las tareas asociadas
+
+---
+
+### ⚠️ Nota de seguridad
+
+Las credenciales iniciales están pensadas **exclusivamente para entornos de desarrollo o pruebas**.
+En entornos productivos se recomienda cambiar o eliminar este usuario.
+
+---
+
+## 🔐 Autenticación (Auth)
+
+La API utiliza **JWT (Bearer Token)** para proteger los endpoints de tareas.
+
+---
+
+### ▶️ Registrar usuario
+
+**POST** `/auth/register`
+
+#### Payload
+
+```json
+{
+  "email": "user@example.com",
+  "password": "strong-password"
+}
+```
+
+#### Descripción
+
+* Crea un nuevo usuario
+* El email debe ser único
+* La contraseña se almacena hasheada
+
+---
+
+### ▶️ Login
+
+**POST** `/auth/login`
+
+#### Payload
+
+```json
+{
+  "email": "admin@task.com",
+  "password": "admin"
+}
+```
+
+#### Respuesta (ejemplo)
+
+```json
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "token_type": "bearer"
+}
+```
+
+---
+
+### 🔑 Uso del Token
+
+Para acceder a los endpoints protegidos, se debe enviar el token en el header:
+
+```http
+Authorization: Bearer <access_token>
+```
+
+---
+
+## 📋 Tasks API
+
+Todos los endpoints de **Tasks** requieren autenticación.
+
+---
+
+### ▶️ Crear tarea
+
+**POST** `/tasks/`
+
+#### Payload
+
+```json
+{
+  "title": "Nueva tarea",
+  "description": "Descripción de la tarea"
+}
+```
+
+#### Descripción
+
+* La tarea se asocia automáticamente al usuario autenticado
+
+---
+
+### ▶️ Listar tareas
+
+**GET** `/tasks/`
+
+#### Descripción
+
+* Retorna solo las tareas del usuario autenticado
+
+---
+
+### ▶️ Obtener tarea por ID
+
+**GET** `/tasks/{task_id}`
+
+#### Descripción
+
+* Retorna la tarea si pertenece al usuario autenticado
+* Si no existe o no es del usuario → `404`
+
+---
+
+### ▶️ Actualizar tarea
+
+**PUT** `/tasks/{task_id}`
+
+#### Payload
+
+```json
+{
+  "title": "Tarea actualizada",
+  "description": "Descripción actualizada",
+  "status: (0 = pending | 1 = in_progress | 2 = done)
+}
+```
+
+#### Descripción
+
+* Actualiza solo las tareas del usuario autenticado
+
+---
+
+### ▶️ Eliminar tarea
+
+**DELETE** `/tasks/{task_id}`
+
+#### Descripción
+
+* Elimina la tarea si pertenece al usuario autenticado
+
+---
+
+## 🔁 Flujo típico de uso
+
+```text
+1. Login
+2. Obtener JWT
+3. Usar Authorization: Bearer <token>
+4. Consumir endpoints de Tasks
+```
+
+---
+
+## 🧠 Notas técnicas
+
+* El email es el identificador único del usuario
+* JWT configurable mediante variables de entorno
+* Passwords almacenados con hash seguro
+* Acceso a tareas restringido por usuario
 * El proyecto está preparado para múltiples entornos
 * La configuración está centralizada en `app/core/config.py`
 
@@ -216,6 +439,4 @@ Todo el proyecto utiliza el mismo archivo `.env`, garantizando coherencia entre 
 
 **Luis Pereira**
 Backend / QA Engineer
-Python · FastAPI · Docker · SQL
-
 ---

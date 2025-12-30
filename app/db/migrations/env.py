@@ -12,10 +12,6 @@ fileConfig(config.config_file_name)
 
 encoded_password = quote_plus(str(settings.DB_PASSWORD))
 
-# ... arriba en env.py
-print(f"DEBUG: El usuario es '{settings.DB_USER}'")
-print(f"DEBUG: La contraseña es '{settings.DB_PASSWORD}'")
-
 config.set_main_option(
     "sqlalchemy.url",
     f"postgresql://{settings.DB_USER}:{settings.DB_PASSWORD}"
