@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Depends, HTTPException, status, Query,  Request
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 from jose import jwt, JWTError
@@ -52,17 +52,35 @@ def create_task(
 # LIST
 @router.get("/", response_model=TaskPaginationOut)
 def list_tasks(
+    request: Request,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
     page: int = Query(1, ge=1),
     page_size: int = Query(10, ge=1, le=100),
 ):
-    return task_service.get_tasks(
+    data = task_service.get_tasks(
         db=db,
         user_id=current_user.id,
         page=page,
         page_size=page_size,
     )
+
+    # Construcción de URLs
+    def build_url(page_number: int | None):
+        if page_number is None:
+            return None
+        return str(
+            request.url.include_query_params(
+                page=page_number,
+                page_size=page_size,
+            )
+        )
+
+    data["next_page_url"] = build_url(data["next_page"])
+    data["prev_page_url"] = build_url(data["prev_page"])
+
+    return data
+
 
 
 # GET BY ID

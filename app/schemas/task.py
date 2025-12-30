@@ -36,17 +36,24 @@ class TaskOut(BaseModel):
     status: int
     created_at: datetime
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True
+    }
 
 class TaskPaginationOut(BaseModel):
     total: int
     page: int
     page_size: int
     total_pages: int
-    next_page: int | None
-    prev_page: int | None
-    items: list[TaskOut]
 
-    class Config:
-        orm_mode = True
+    next_page: Optional[int]
+    prev_page: Optional[int]
+
+    next_page_url: Optional[str]
+    prev_page_url: Optional[str]
+
+    items: list[TaskOut]
+    
+    model_config = {
+        "from_attributes": True
+    }
