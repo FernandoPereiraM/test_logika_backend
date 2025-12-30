@@ -29,14 +29,13 @@ if not exist app\db\migrations\versions (
 echo [6/7] Verificando migraciones...
 if not exist app\db\migrations\versions\*.py (
     echo Creando migracion inicial...
-    alembic revision --autogenerate -m "initial_schema"
+    alembic revision --autogenerate -m "create users and tasks tables"
 ) else (
     echo Migraciones existentes detectadas.
 )
 
 echo [7/7] Aplicando esquema, seed y servidor...
 alembic upgrade head
-python -m app.db.seed
 uvicorn app.main:app --reload
 
 pause
