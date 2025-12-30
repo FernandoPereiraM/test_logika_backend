@@ -1,27 +1,42 @@
 @echo off
-TITLE FastAPI Dev Environment
+TITLE FastAPI Initial Setup
 set PYTHONUTF8=1
 
-REM Ir siempre al directorio del proyecto
 cd /d "%~dp0"
 
-echo [1/6] Iniciando Docker...
+echo [1/7] Iniciando Docker...
 docker-compose up -d
 
-echo [2/6] Esperando a la BD...
+echo [2/7] Esperando a la BD...
 timeout /t 10 /nobreak > NUL
 
-echo [3/6] Limpiando rastro de versiones...
-docker exec technical_test_db psql -U postgres -d technical_test -c "DROP TABLE IF EXISTS alembic_version CASCADE;"
+echo [3/7] Verificando entorno virtual...
+if not exist env\Scripts\activate.bat (
+    echo Creando entorno virtual...
+    python -m venv env
+)
 
-echo [4/6] Aplicando esquema...
 call env\Scripts\activate
+
+echo [4/7] Instalando dependencias...
+pip install -r requirements.txt
+
+echo [5/7] Verificando estructura de migraciones...
+if not exist app\db\migrations\versions (
+    mkdir app\db\migrations\versions
+)
+
+echo [6/7] Verificando migraciones...
+if not exist app\db\migrations\versions\*.py (
+    echo Creando migracion inicial...
+    alembic revision --autogenerate -m "initial_schema"
+) else (
+    echo Migraciones existentes detectadas.
+)
+
+echo [7/7] Aplicando esquema, seed y servidor...
 alembic upgrade head
-
-echo [5/6] Ejecutando Seed...
 python -m app.db.seed
-
-echo [6/6] Iniciando Servidor...
 uvicorn app.main:app --reload
 
 pause
