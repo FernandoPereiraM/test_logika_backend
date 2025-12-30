@@ -155,7 +155,7 @@ alembic upgrade head
 Primera vez:
 
 ```
-alembic revision --autogenerate -m "initial"
+alembic revision --autogenerate -m "create users and tasks tables"
 alembic upgrade head
 ```
 
@@ -190,7 +190,7 @@ El servidor estará disponible en:
 # Flujo de ejecución resumido
 
 ```
-Docker → PostgreSQL → Alembic → Seed → FastAPI
+Docker → PostgreSQL → Alembic → FastAPI
 ```
 
 Todo el proyecto utiliza el mismo archivo `.env`, garantizando coherencia entre infraestructura y backend.
@@ -203,7 +203,13 @@ Todo el proyecto utiliza el mismo archivo `.env`, garantizando coherencia entre 
 
 # Datos iniciales (Seed)
 
-Durante la inicialización del proyecto se ejecuta un script de seed cuyo objetivo es dejar el sistema listo para ser utilizado sin configuración manual.
+Durante la inicialización del proyecto se ejecuta un script de **seed** cuyo objetivo es preparar completamente el sistema para su uso inmediato.
+
+El script realiza automáticamente:
+
+* **Ejecución de migraciones** para crear todas las tablas necesarias.
+* **Creación de un usuario administrador inicial**.
+* **Generación de un conjunto de tareas asociadas al usuario administrador**, útiles para pruebas y validación del funcionamiento.
 
 ## Usuario administrador inicial
 
@@ -222,7 +228,7 @@ La contraseña se almacena de forma hasheada.
 POST /auth/login
 ```
 
-```
+```json
 {
   "email": "admin@task.com",
   "password": "admin"
@@ -231,7 +237,7 @@ POST /auth/login
 
 ## Datos adicionales creados
 
-* El usuario administrador recibe 6 tareas iniciales.
+* El usuario administrador recibe 30 tareas iniciales con distintos estados.
 * Son útiles para validar el funcionamiento de los endpoints sin crear datos manuales.
 
 ## Proceso de creación

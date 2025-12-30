@@ -113,23 +113,23 @@ Toda la configuración se centralizó en un archivo `.env`, cargado desde `core`
 * Dependencia de variables externas
 
 ---
-
-### Paginación con `skip` y `limit`
+### Paginación con `page` y `page_size`
 
 **Decisión:**
-Se implementó paginación usando parámetros `skip` y `limit`.
+La paginación del listado de tareas se implementa utilizando los parámetros `page` y `page_size`.
 
 **Ventajas:**
 
-* Simplicidad de implementación
-* Compatible con SQLAlchemy
-* Suficiente para volúmenes moderados de datos
+* Es un enfoque intuitivo para el cliente, basado en navegación por páginas.
+* Facilita generar enlaces como `next_page` y `prev_page`.
+* Permite controlar fácilmente cuántos elementos se devuelven por solicitud.
+* Compatible con SQLAlchemy mediante la conversión interna a `offset` y `limit`.
 
 **Trade-off:**
 
-* Menos eficiente que cursor-based pagination en grandes volúmenes
-* No garantiza consistencia si los datos cambian durante la paginación
-
+* Internamente se deben calcular los valores `skip` y `limit`.
+* Si los datos cambian entre solicitudes, el contenido de cada página puede variar.
+* No es tan eficiente ni estable como la paginación basada en cursores para datasets muy grandes.
 ---
 
 ### Separación por capas (Core, DB, Routes)
