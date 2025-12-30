@@ -362,13 +362,6 @@ Todos los endpoints de **Tasks** requieren autenticación.
 
 ---
 
-### ▶️ Listar tareas
-
-Perfecto, Luis 👍
-Aquí tienes **la redacción correcta y clara para el README**, explicando que el endpoint **permite paginación** usando `skip` y `limit`.
-
----
-
 ### ▶️ Listar tareas (con paginación)
 
 **GET** `/tasks/`
