@@ -352,31 +352,101 @@ Todos los endpoints de **Tasks** requieren autenticación.
 
 ---
 
-### Listar tareas (con paginación)
+# 📘 Listar tareas (con paginación)
 
-**GET** `/tasks/`
+### `GET /tasks/`
 
-Este endpoint permite obtener las tareas del usuario autenticado y **soporta paginación** mediante parámetros de consulta.
+Este endpoint devuelve las tareas del **usuario autenticado**, aplicando paginación mediante los parámetros `page` y `page_size`.
 
-#### Parámetros de consulta
+---
 
-| Parámetro | Tipo | Descripción                           |
-| --------- | ---- | ------------------------------------- |
-| `skip`    | int  | Número de registros a omitir (offset) |
-| `limit`   | int  | Número máximo de registros a retornar |
+## 🔐 Autenticación
 
-#### Ejemplo de solicitud
+Requiere token JWT en el header:
 
-```http
-GET http://127.0.0.1:8000/tasks/?skip=0&limit=10
+```
+Authorization: Bearer <token>
 ```
 
-#### Descripción
+---
 
-* `skip=0` → inicia desde el primer registro
-* `limit=10` → retorna un máximo de 10 tareas
-* Solo se listan las tareas del usuario autenticado
-* Requiere token JWT en el header `Authorization`
+## 📥 Parámetros de consulta
+
+| Parámetro   | Tipo | Por defecto | Descripción                                      |
+| ----------- | ---- | ----------- | ------------------------------------------------ |
+| `page`      | int  | 1           | Número de página a consultar. Debe ser ≥ 1.      |
+| `page_size` | int  | 10          | Cantidad de elementos por página. Entre 1 y 100. |
+
+---
+
+## 📌 Descripción
+
+* `page` indica **la página actual**.
+* `page_size` indica **cuántos registros devuelve la API por página**.
+* El backend convierte internamente estos parámetros a offset/limit.
+* Además, la respuesta incluye:
+
+  * `total` → total de tareas del usuario
+  * `total_pages` → número de páginas disponibles
+  * `next_page` → página siguiente (o `null`)
+  * `prev_page` → página anterior (o `null`)
+  * `items` → lista de tareas de la página actual
+
+---
+
+## 📤 Ejemplo de solicitud
+
+```
+GET http://127.0.0.1:8000/tasks/?page=1&page_size=5
+```
+
+---
+
+## 📥 Ejemplo de respuesta
+
+```json
+{
+  "total": 42,
+  "page": 1,
+  "page_size": 5,
+  "total_pages": 9,
+  "next_page": 2,
+  "prev_page": null,
+  "items": [
+    {
+      "id": 12,
+      "title": "Pagar servicios",
+      "description": "Antes del viernes",
+      "status": 0,
+      "created_at": "2025-01-01T10:00:00"
+    }
+  ]
+}
+```
+
+---
+
+## 🧠 ¿Cómo funciona la paginación internamente?
+
+El backend convierte:
+
+```
+skip = (page - 1) * page_size
+limit = page_size
+```
+
+Ejemplo para `page=3` y `page_size=10`:
+
+* salta → `20` registros
+* devuelve → `10` registros (IDs 21 al 30)
+
+---
+
+## 📎 Notas
+
+* Solo se devuelven tareas del **usuario autenticado**.
+* Si la página solicitada excede el número real de páginas, `items` será una lista vacía.
+* `next_page` y `prev_page` son `null` cuando no aplican.
 
 ---
 

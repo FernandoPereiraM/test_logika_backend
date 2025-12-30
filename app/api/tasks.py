@@ -6,7 +6,7 @@ from jose import jwt, JWTError
 from app.db.session import get_db
 from app.models.user import User
 from app.core.config import settings
-from app.schemas.task import TaskCreate, TaskUpdate, TaskOut
+from app.schemas.task import TaskCreate, TaskPaginationOut, TaskUpdate, TaskOut
 from app.services import task_service
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
@@ -50,19 +50,20 @@ def create_task(
     )
 
 # LIST (solo mis tasks)
-@router.get("/", response_model=list[TaskOut])
+@router.get("/", response_model=TaskPaginationOut)
 def list_tasks(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
-    skip: int = Query(0, ge=0),
-    limit: int = Query(10, ge=1, le=100),
+    page: int = Query(1, ge=1),
+    page_size: int = Query(10, ge=1, le=100),
 ):
     return task_service.get_tasks(
         db=db,
         user_id=current_user.id,
-        skip=skip,
-        limit=limit,
+        page=page,
+        page_size=page_size,
     )
+
 
 # GET BY ID
 @router.get("/{task_id}", response_model=TaskOut)

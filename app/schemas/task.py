@@ -29,11 +29,24 @@ class TaskUpdate(BaseModel):
             raise ValueError("status must be 0, 1 or 2")
         return v
 
-
-class TaskOut(TaskBase):
+class TaskOut(BaseModel):
     id: int
+    title: str
+    description: str | None
+    status: int
     created_at: datetime
 
-    model_config = {
-        "from_attributes": True
-    }
+    class Config:
+        orm_mode = True
+
+class TaskPaginationOut(BaseModel):
+    total: int
+    page: int
+    page_size: int
+    total_pages: int
+    next_page: int | None
+    prev_page: int | None
+    items: list[TaskOut]
+
+    class Config:
+        orm_mode = True
