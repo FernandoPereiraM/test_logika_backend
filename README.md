@@ -150,6 +150,8 @@ pip install -r requirements.txt
 Para crear tablas y cargar datos de prueba:
 
 ```
+
+```
 alembic upgrade head
 ---
 
