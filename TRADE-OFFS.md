@@ -1,6 +1,6 @@
 ---
 
-## 🧠 DECISIONES TÉCNICAS Y TRADE-OFFS
+## DECISIONES TÉCNICAS Y TRADE-OFFS
 
 En esta sección se explican las principales decisiones técnicas tomadas durante el desarrollo del proyecto, junto con los **trade-offs** asociados.
 
